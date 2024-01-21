@@ -1,0 +1,163 @@
+<?php
+
+if ($argc < 2) {
+    echo "Usage: {$argv[0]} <path_to_db>\n";
+    die;
+}
+
+$DIR = dirname(__FILE__);
+require "$DIR/../src/classes/Database.php";
+
+$db = new Database($argv[1]);
+$history = $db->getHistory();
+$listeners = $db->getListeners();
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="color-scheme" content="light dark">
+        <!--    <link rel="icon" type="image/png" href="data:image/png;base64,">-->
+        <title>Radio stats</title>
+        <style>
+            body {
+                max-width: 800px;
+                background-color: #000;
+                color: #fff;
+                margin: auto;
+            }
+
+            h1, h2, h3 {
+                margin: auto;
+            }
+
+            @media print {
+                body {
+                    max-width: none;
+                }
+            }
+
+            table {
+                width: 100%;
+                text-align: center;
+            }
+
+            tr > td {
+                color: #aaa;
+            }
+        </style>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </head>
+
+    <body>
+        <div id="chart-legend"></div>
+        <canvas id="chart"></canvas>
+
+        <table>
+            <tr>
+                <th>
+                    Sovietwave
+                </th>
+                <th>
+                    Provoda.ch
+                </th>
+                <th>
+                    Witch House
+                </th>
+            </tr>
+            <?php for ($entry = 0; $entry < 20; $entry++): ?>
+                <tr>
+                    <td>
+                        <h3>
+                            <?= $history['soviet'][$entry]['artist'] ?>
+                        </h3>
+                        <?= $history['soviet'][$entry]['title'] ?>
+                    </td>
+                    <td>
+                        <h3>
+                            <?= $history['provodach'][$entry]['artist'] ?>
+                        </h3>
+                        <?= $history['provodach'][$entry]['title'] ?>
+                    </td>
+                    <td>
+                        <h3>
+                            <?= $history['witch'][$entry]['artist'] ?>
+                        </h3>
+                        <?= $history['witch'][$entry]['title'] ?>
+                    </td>
+                </tr>
+            <?php endfor; ?>
+        </table>
+
+        <script>
+            const labels = [<?= implode(',', array_map(function ($date) { return "'$date'"; }, array_keys($listeners['provodach']))) ?>];
+            <?php foreach ($listeners as $code => $values): ?>
+                const data_<?= $code ?> = [<?= implode(',', array_values($values)) ?>];
+            <?php endforeach; ?>
+
+            const data = {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Provoda.ch',
+                        data: data_provodach,
+                        borderColor: '#610298',
+                        fill: false,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Sovietwave',
+                        data: data_soviet,
+                        borderColor: '#e0c200',
+                        fill: false,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Witch House',
+                        data: data_witch,
+                        borderColor: '#0013d3',
+                        fill: false,
+                        tension: 0.4
+                    }
+                ]
+            };
+            const config = {
+                type: 'line',
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true
+                        }
+                    },
+                    interaction: {
+                        intersect: false
+                    },
+                    scales: {
+                        x: {
+                            display: true,
+                            title: {
+                                display: true
+                            }
+                        },
+                        y: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Listeners'
+                            },
+                            suggestedMin: 0
+                            // suggestedMax: 200
+                        }
+                    }
+                }
+            };
+
+            new Chart(document.getElementById('chart'), config);
+        </script>
+    </body>
+</html>
