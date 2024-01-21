@@ -49,19 +49,69 @@
     monospace;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   max-inline-size: var(--measure);
 }
 
-html,
+blockquote,
+body,
+dd,
+dl,
+figure,
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+
 body,
 div,
+footer,
 header,
-nav,
+html,
 main,
-footer {
+nav {
   max-inline-size: none;
+}
+
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-dark);
+  color: var(--color-light);
+  font-family: var(--font-serif);
+  font-size: calc(var(--s0) + 0.5vw);
+  line-height: 1.7;
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-sans-serif);
+  font-weight: 800;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--s2);
+}
+
+h2 {
+  font-size: var(--s1);
+}
+
+h3 {
+  font-size: var(--s0);
 }
 
 table {
@@ -74,15 +124,15 @@ tr>td {
   color: var(--color-mid);
 }
 
-.page {
-  background-color: var(--color-dark);
-  color: var(--color-light);
-  font-family: var(--font-sans-serif);
-  font-size: calc(var(--s0) + 0.5vw);
-}
-
 footer {
   font-size: var(--s-1);
+}
+
+a {
+  color: currentColor;
+  text-decoration-color: var(--color-accent);
+  text-decoration-thickness: 0.3ex;
+  text-underline-offset: 0.3ex;
 }
 
 /* Stack Layout */
@@ -132,4 +182,19 @@ footer {
 /* Utilities */
 .text-align\:left {
   text-align: left;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
