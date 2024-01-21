@@ -38,7 +38,11 @@ $listeners = $db->getListeners();
               referrerpolicy="no-referrer"
               crossorigin="anonymous">
 
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <link rel="preload"
+              as="script"
+              href="https://cdn.jsdelivr.net/npm/chart.js"
+              type="text/javascript"
+              crossorigin="anonymous">
     </head>
 
     <body class="center"
@@ -108,6 +112,8 @@ $listeners = $db->getListeners();
             Fork it <a href="https://github.com/xxkfqz/radiostat" target="_blank">here</a>
         </footer>
 
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"
+                async></script>
         <script>
             const labels = [<?= implode(',', array_map(function ($date) { return "'$date'"; }, array_keys($listeners['provodach']))) ?>];
             <?php foreach ($listeners as $code => $values): ?>
