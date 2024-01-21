@@ -45,68 +45,81 @@ $listeners = $db->getListeners();
               crossorigin="anonymous">
     </head>
 
-    <body class="center"
+    <body class="[ center ][ stack ]"
           style="--gutters: var(--s0);">
 
-        <div id="chart-legend"></div>
+        <header>
+            <!-- TODO(toby3d): looks like unused block, remove it? -->
+            <div id="chart-legend"></div>
 
-        <div class="frame"
-             style="--n: 16, --d: 9">
+            <div class="frame"
+                 style="--n: 16, --d: 9">
 
-            <canvas id="chart"></canvas>
-        </div>
+                <canvas id="chart"></canvas>
+            </div>
+        </header>
 
-        <h2>Latest tracks</h2>
+        <main>
+            <h2>Latest tracks</h2>
 
-        <!-- TODO(toby3d): make vertical timeline with >20 latest played tracks for all stations? 3-column table is too wide for mobile screens and hard to understand. :\ -->
-        <table>
-            <tr>
-                <!-- TODO(toby3d): generate columns and take it's names from data.datasets[].label -->
-                <th>
-                    <a href="https://sovietwave.su" target="_blank">
-                        Sovietwave
-                    </a>
-                </th>
-                <th>
-                    <a href="https://provoda.ch" target="_blank">
-                        Provoda.ch
-                    </a>
-                </th>
-                <th>
-                    <a href="https://witch.waveradio.org/" target="_blank">
-                        Witch House
-                    </a>
-                </th>
-            </tr>
-            <?php for ($entry = 0; $entry < 20; $entry++): ?>
+            <!-- TODO(toby3d): make vertical timeline with >20 latest played tracks for all stations? 3-column table is too wide for mobile screens and hard to understand. :\ -->
+            <table>
+                <tr>
+                    <!-- TODO(toby3d): generate columns and take it's names from data.datasets[].label -->
+                    <th>
+                        <a href="https://sovietwave.su"
+                           target="_blank">
+                            Sovietwave
+                        </a>
+                    </th>
+                    <th>
+                        <a href="https://provoda.ch"
+                           target="_blank">
+                            Provoda.ch
+                        </a>
+                    </th>
+                    <th>
+                        <a href="https://witch.waveradio.org/"
+                           target="_blank">
+                            Witch House
+                        </a>
+                    </th>
+                </tr>
+                <?php for ($entry = 0; $entry < 20; $entry++): ?>
+                <tr>
+                    <!-- TODO(toby3d): generate columns and take it's names from data.datasets[].label -->
+                    <!-- TODO(toby3d): one header -- one link to station -->
+                    <th>Sovietwave</th>
+                    <th>Provoda.ch</th>
+                    <th>Witch House</th>
+                </tr>
+                <?php for ($entry = 0; $entry < 20; $entry++): ?>
                 <tr>
                     <td>
-                        <a target="_blank" href="https://youtube.com/results?<?= http_build_query(['search_query' => "{$history['soviet'][$entry]['artist']} {$history['soviet'][$entry]['title']}"]) ?>">
-                            <h3>
-                                <?= $history['soviet'][$entry]['artist'] ?>
-                            </h3>
+                        <a target="_blank"
+                           href="https://youtube.com/results?<?= http_build_query(['search_query' => "{$history['soviet'][$entry]['artist']} {$history['soviet'][$entry]['title']}"]) ?>">
+                            <h3><?= $history['soviet'][$entry]['artist'] ?></h3>
                             <?= $history['soviet'][$entry]['title'] ?>
                         </a>
                     </td>
                     <td>
-                        <a target="_blank" href="https://youtube.com/results?<?= http_build_query(['search_query' => "{$history['provodach'][$entry]['artist']} {$history['provodach'][$entry]['title']}"]) ?>">
-                            <h3>
-                                <?= $history['provodach'][$entry]['artist'] ?>
-                            </h3>
+                        <a target="_blank"
+                           href="https://youtube.com/results?<?= http_build_query(['search_query' => "{$history['provodach'][$entry]['artist']} {$history['provodach'][$entry]['title']}"]) ?>">
+                            <h3><?= $history['provodach'][$entry]['artist'] ?></h3>
                             <?= $history['provodach'][$entry]['title'] ?>
                         </a>
                     </td>
                     <td>
-                        <a target="_blank" href="https://youtube.com/results?<?= http_build_query(['search_query' => "{$history['witch'][$entry]['artist']} {$history['witch'][$entry]['title']}"]) ?>">
-                            <h3>
-                                <?= $history['witch'][$entry]['artist'] ?>
-                            </h3>
+                        <a target="_blank"
+                           href="https://youtube.com/results?<?= http_build_query(['search_query' => "{$history['witch'][$entry]['artist']} {$history['witch'][$entry]['title']}"]) ?>">
+                            <h3><?= $history['witch'][$entry]['artist'] ?></h3>
                             <?= $history['witch'][$entry]['title'] ?>
                         </a>
                     </td>
                 </tr>
-            <?php endfor; ?>
-        </table>
+                <?php endfor; ?>
+            </table>
+        </main>
 
         <footer>
             Fork it <a href="https://github.com/xxkfqz/radiostat" target="_blank">here</a>

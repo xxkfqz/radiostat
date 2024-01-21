@@ -70,6 +70,21 @@ tr>td {
   font-size: calc(var(--s0) + 0.5vw);
 }
 
+.stack {
+  --_space: var(--space, var(--s0));
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.stack>* {
+  margin-block: 0;
+}
+
+.stack>*+* {
+  margin-block-start: var(--_space);
+}
+
 .center {
   --_gutters: var(--gutters, );
   --_max: var(--max, var(--measure));
