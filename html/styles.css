@@ -85,6 +85,7 @@ footer {
   font-size: var(--s-1);
 }
 
+/* Stack Layout */
 .stack {
   --_space: var(--space, var(--s0));
   display: flex;
@@ -100,6 +101,7 @@ footer {
   margin-block-start: var(--_space);
 }
 
+/* Center Layout */
 .center {
   --_gutters: var(--gutters, );
   --_max: var(--max, var(--measure));
@@ -110,6 +112,7 @@ footer {
   padding-inline-start: var(--_gutters);
 }
 
+/* Frame Layout */
 .frame {
   --_denominator: var(--d, 9);
   --_numerator: var(--n, 16);
@@ -124,4 +127,9 @@ footer {
   block-size: 100%;
   inline-size: 100%;
   object-fit: cover;
+}
+
+/* Utilities */
+.text-align\:left {
+  text-align: left;
 }
