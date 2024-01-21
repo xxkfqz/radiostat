@@ -53,6 +53,16 @@ footer {
   max-inline-size: none;
 }
 
+table {
+  /* NOTE(toby3d): mono font for tables and dynamic data, see:
+    https://www.youtube.com/watch?v=2PC5L3tv6fA */
+  font-family: var(--font-mono);
+}
+
+tr>td {
+  color: var(--color-mid);
+}
+
 .page {
   background-color: var(--color-dark);
   color: var(--color-light);
