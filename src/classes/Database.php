@@ -85,7 +85,7 @@ class Database
     public function getHistory(): array
     {
         $raw = $this->connection->query(
-            "SELECT code, artist, title FROM history WHERE time > datetime('now' , '-7 days') ORDER BY time DESC LIMIT 20"
+            "SELECT code, artist, title FROM history WHERE time > datetime('now' , '-7 days') ORDER BY time DESC LIMIT 100"
         );
 
         $rawResult = [];
