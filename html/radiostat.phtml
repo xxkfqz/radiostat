@@ -53,6 +53,16 @@ $listeners = $db->getListeners();
                 color: #888;
                 font-size: 12px;
                 text-align: center;
+                margin: 32px 0 8px;
+            }
+
+            footer > a {
+                text-decoration: underline;
+            }
+
+            a {
+                text-decoration: none;
+                color: inherit;
             }
         </style>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -77,29 +87,35 @@ $listeners = $db->getListeners();
             <?php for ($entry = 0; $entry < 20; $entry++): ?>
                 <tr>
                     <td>
-                        <h3>
-                            <?= $history['soviet'][$entry]['artist'] ?>
-                        </h3>
-                        <?= $history['soviet'][$entry]['title'] ?>
+                        <a target="_blank" href="https://youtube.com/results?<?= http_build_query(['search_query' => "{$history['soviet'][$entry]['artist']} {$history['soviet'][$entry]['title']}"]) ?>">
+                            <h3>
+                                <?= $history['soviet'][$entry]['artist'] ?>
+                            </h3>
+                            <?= $history['soviet'][$entry]['title'] ?>
+                        </a>
                     </td>
                     <td>
-                        <h3>
-                            <?= $history['provodach'][$entry]['artist'] ?>
-                        </h3>
-                        <?= $history['provodach'][$entry]['title'] ?>
+                        <a target="_blank" href="https://youtube.com/results?<?= http_build_query(['search_query' => "{$history['provodach'][$entry]['artist']} {$history['provodach'][$entry]['title']}"]) ?>">
+                            <h3>
+                                <?= $history['provodach'][$entry]['artist'] ?>
+                            </h3>
+                            <?= $history['provodach'][$entry]['title'] ?>
+                        </a>
                     </td>
                     <td>
-                        <h3>
-                            <?= $history['witch'][$entry]['artist'] ?>
-                        </h3>
-                        <?= $history['witch'][$entry]['title'] ?>
+                        <a target="_blank" href="https://youtube.com/results?<?= http_build_query(['search_query' => "{$history['witch'][$entry]['artist']} {$history['witch'][$entry]['title']}"]) ?>">
+                            <h3>
+                                <?= $history['witch'][$entry]['artist'] ?>
+                            </h3>
+                            <?= $history['witch'][$entry]['title'] ?>
+                        </a>
                     </td>
                 </tr>
             <?php endfor; ?>
         </table>
 
         <footer>
-            Fork it <a href="//github.com/xxkfqz/radiostat" target="_blank">here</a>
+            Fork it <a href="https://github.com/xxkfqz/radiostat" target="_blank">here</a>
         </footer>
 
         <script>

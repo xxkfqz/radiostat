@@ -90,6 +90,9 @@ class Database
 
         $rawResult = [];
         while ($row = $raw->fetchArray(SQLITE3_ASSOC)) {
+            $row = array_map(function($str) {
+                return stripslashes($str);
+            }, $row);
             $rawResult[$row['code']][] = $row;
         }
 
