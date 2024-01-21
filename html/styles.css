@@ -59,3 +59,29 @@ footer {
   font-family: var(--font-sans-serif);
   font-size: calc(var(--s0) + 0.5vw);
 }
+
+.center {
+  --_gutters: var(--gutters, );
+  --_max: var(--max, var(--measure));
+  box-sizing: content-box;
+  margin-inline: auto;
+  max-inline-size: var(--_max);
+  padding-inline-end: var(--_gutters);
+  padding-inline-start: var(--_gutters);
+}
+
+.frame {
+  --_denominator: var(--d, 9);
+  --_numerator: var(--n, 16);
+  align-items: center;
+  aspect-ratio: var(--_numerator) / var(--_denominator);
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.frame>* {
+  block-size: 100%;
+  inline-size: 100%;
+  object-fit: cover;
+}

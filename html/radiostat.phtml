@@ -36,21 +36,27 @@ $listeners = $db->getListeners();
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
 
-    <body>
-        <div id="chart-legend"></div>
-        <canvas id="chart"></canvas>
+    <body class="center"
+          style="--gutters: var(--s0);">
 
+        <div id="chart-legend"></div>
+
+        <div class="frame"
+             style="--n: 16, --d: 9">
+
+            <canvas id="chart"></canvas>
+        </div>
+
+        <h2>Latest tracks</h2>
+
+        <!-- TODO(toby3d): make vertical timeline with >20 latest played tracks for all stations? 3-column table is too wide for mobile screens and hard to understand. :\ -->
         <table>
             <tr>
-                <th>
-                    Sovietwave
-                </th>
-                <th>
-                    Provoda.ch
-                </th>
-                <th>
-                    Witch House
-                </th>
+                <!-- TODO(toby3d): generate columns and take it's names from data.datasets[].label -->
+                <!-- TODO(toby3d): one header -- one link to station -->
+                <th>Sovietwave</th>
+                <th>Provoda.ch</th>
+                <th>Witch House</th>
             </tr>
             <?php for ($entry = 0; $entry < 20; $entry++): ?>
                 <tr>
