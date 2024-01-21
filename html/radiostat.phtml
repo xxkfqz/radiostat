@@ -15,80 +15,48 @@ $listeners = $db->getListeners();
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html class="page"
+      lang="en">
+
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="color-scheme" content="light dark">
         <!--    <link rel="icon" type="image/png" href="data:image/png;base64,">-->
         <title>Radio stats</title>
-        <style>
-            body {
-                max-width: 800px;
-                background-color: #000;
-                color: #fff;
-                margin: auto;
-            }
 
-            h1, h2, h3 {
-                margin: auto;
-            }
+        <link rel="preload stylesheet"
+              as="style"
+              href="/styles.css"
+              type="text/css"
+              fetchpriority="high"
+              referrerpolicy="no-referrer"
+              crossorigin="anonymous">
 
-            @media print {
-                body {
-                    max-width: none;
-                }
-            }
-
-            table {
-                text-align: center;
-                width: 100%;
-                border-collapse:separate;
-                border-spacing: 0 1em;
-            }
-
-            tr > td {
-                color: #aaa;
-            }
-
-            th {
-                width: 33.3%;
-            }
-
-            footer {
-                color: #888;
-                font-size: 12px;
-                text-align: center;
-                margin: 32px 0 8px;
-            }
-
-            footer > a {
-                text-decoration: underline;
-            }
-
-            a {
-                text-decoration: none;
-                color: inherit;
-            }
-        </style>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
 
-    <body>
-        <div id="chart-legend"></div>
-        <canvas id="chart"></canvas>
+    <body class="center"
+          style="--gutters: var(--s0);">
 
+        <div id="chart-legend"></div>
+
+        <div class="frame"
+             style="--n: 16, --d: 9">
+
+            <canvas id="chart"></canvas>
+        </div>
+
+        <h2>Latest tracks</h2>
+
+        <!-- TODO(toby3d): make vertical timeline with >20 latest played tracks for all stations? 3-column table is too wide for mobile screens and hard to understand. :\ -->
         <table>
             <tr>
-                <th>
-                    Sovietwave
-                </th>
-                <th>
-                    Provoda.ch
-                </th>
-                <th>
-                    Witch House
-                </th>
+                <!-- TODO(toby3d): generate columns and take it's names from data.datasets[].label -->
+                <!-- TODO(toby3d): one header -- one link to station -->
+                <th>Sovietwave</th>
+                <th>Provoda.ch</th>
+                <th>Witch House</th>
             </tr>
             <?php for ($entry = 0; $entry < 20; $entry++): ?>
                 <tr>

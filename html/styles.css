@@ -1,0 +1,97 @@
+:root {
+  --s0: 1rem;
+  --measure: 60ch;
+  --color-dark: #050505;
+  --color-mid: grey;
+  --color-light: #fafafa;
+
+  /* System Font Stack: https://systemfontstack.com/ */
+  --font-sans-serif: -apple-system,
+    BlinkMacSystemFont,
+    avenir next,
+    avenir,
+    segoe ui,
+    helvetica neue,
+    helvetica,
+    Cantarell,
+    Ubuntu,
+    roboto,
+    noto,
+    arial,
+    sans-serif;
+  --font-serif: Iowan Old Style,
+    Apple Garamond,
+    Baskerville,
+    Times New Roman,
+    Droid Serif,
+    Times,
+    Source Serif Pro,
+    serif,
+    Apple Color Emoji,
+    Segoe UI Emoji,
+    Segoe UI Symbol;
+  --font-mono: Menlo,
+    Consolas,
+    Monaco,
+    Liberation Mono,
+    Lucida Console,
+    monospace;
+}
+
+* {
+  box-sizing: border-box;
+  max-inline-size: var(--measure);
+}
+
+html,
+body,
+div,
+header,
+nav,
+main,
+footer {
+  max-inline-size: none;
+}
+
+table {
+  /* NOTE(toby3d): mono font for tables and dynamic data, see:
+    https://www.youtube.com/watch?v=2PC5L3tv6fA */
+  font-family: var(--font-mono);
+}
+
+tr>td {
+  color: var(--color-mid);
+}
+
+.page {
+  background-color: var(--color-dark);
+  color: var(--color-light);
+  font-family: var(--font-sans-serif);
+  font-size: calc(var(--s0) + 0.5vw);
+}
+
+.center {
+  --_gutters: var(--gutters, );
+  --_max: var(--max, var(--measure));
+  box-sizing: content-box;
+  margin-inline: auto;
+  max-inline-size: var(--_max);
+  padding-inline-end: var(--_gutters);
+  padding-inline-start: var(--_gutters);
+}
+
+.frame {
+  --_denominator: var(--d, 9);
+  --_numerator: var(--n, 16);
+  align-items: center;
+  aspect-ratio: var(--_numerator) / var(--_denominator);
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.frame>* {
+  block-size: 100%;
+  inline-size: 100%;
+  object-fit: cover;
+}
