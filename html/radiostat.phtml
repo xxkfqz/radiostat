@@ -1,14 +1,19 @@
 <?php
 
-if ($argc < 2) {
-    echo "Usage: {$argv[0]} <path_to_db>\n";
-    die;
+if (php_sapi_name() === 'cli') {
+    if ($argc < 2) {
+        echo "Usage: {$argv[0]} <path_to_db>\n";
+        die;
+    }
+    $pathToDb = $argv[1];
+} else {
+    $pathToDb = $_REQUEST['db'];
 }
 
 $DIR = dirname(__FILE__);
 require "$DIR/../src/classes/Database.php";
 
-$db = new Database($argv[1]);
+$db = new Database($pathToDb);
 $history = $db->getHistory();
 $listeners = $db->getListeners();
 
@@ -53,10 +58,21 @@ $listeners = $db->getListeners();
         <table>
             <tr>
                 <!-- TODO(toby3d): generate columns and take it's names from data.datasets[].label -->
-                <!-- TODO(toby3d): one header -- one link to station -->
-                <th>Sovietwave</th>
-                <th>Provoda.ch</th>
-                <th>Witch House</th>
+                <th>
+                    <a href="https://sovietwave.su" target="_blank">
+                        Sovietwave
+                    </a>
+                </th>
+                <th>
+                    <a href="https://provoda.ch" target="_blank">
+                        Provoda.ch
+                    </a>
+                </th>
+                <th>
+                    <a href="https://witch.waveradio.org/" target="_blank">
+                        Witch House
+                    </a>
+                </th>
             </tr>
             <?php for ($entry = 0; $entry < 20; $entry++): ?>
                 <tr>
