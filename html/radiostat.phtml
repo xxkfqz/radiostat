@@ -48,6 +48,12 @@ $listeners = $db->getListeners();
             tr > td {
                 color: #aaa;
             }
+
+            footer {
+                color: #888;
+                font-size: 12px;
+                text-align: center;
+            }
         </style>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
@@ -91,6 +97,10 @@ $listeners = $db->getListeners();
                 </tr>
             <?php endfor; ?>
         </table>
+
+        <footer>
+            Fork it <a href="//github.com/xxkfqz/radiostat">here</a>
+        </footer>
 
         <script>
             const labels = [<?= implode(',', array_map(function ($date) { return "'$date'"; }, array_keys($listeners['provodach']))) ?>];
