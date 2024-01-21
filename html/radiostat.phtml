@@ -15,62 +15,24 @@ $listeners = $db->getListeners();
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html class="page"
+      lang="en">
+
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="color-scheme" content="light dark">
         <!--    <link rel="icon" type="image/png" href="data:image/png;base64,">-->
         <title>Radio stats</title>
-        <style>
-            body {
-                max-width: 800px;
-                background-color: #000;
-                color: #fff;
-                margin: auto;
-            }
 
-            h1, h2, h3 {
-                margin: auto;
-            }
+        <link rel="preload stylesheet"
+              as="style"
+              href="/styles.css"
+              type="text/css"
+              fetchpriority="high"
+              referrerpolicy="no-referrer"
+              crossorigin="anonymous">
 
-            @media print {
-                body {
-                    max-width: none;
-                }
-            }
-
-            table {
-                text-align: center;
-                width: 100%;
-                border-collapse:separate;
-                border-spacing: 0 1em;
-            }
-
-            tr > td {
-                color: #aaa;
-            }
-
-            th {
-                width: 33.3%;
-            }
-
-            footer {
-                color: #888;
-                font-size: 12px;
-                text-align: center;
-                margin: 32px 0 8px;
-            }
-
-            footer > a {
-                text-decoration: underline;
-            }
-
-            a {
-                text-decoration: none;
-                color: inherit;
-            }
-        </style>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
 
