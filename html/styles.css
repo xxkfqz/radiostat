@@ -166,8 +166,10 @@ a {
 
 /* Frame Layout */
 .frame {
+  --_denominator: var(--d, 9);
+  --_numerator: var(--n, 16);
   align-items: center;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: var(--_numerator) / var(--_denominator);
   display: flex;
   justify-content: center;
   overflow: hidden;
