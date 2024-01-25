@@ -118,6 +118,7 @@ table {
   /* NOTE(toby3d): mono font for tables and dynamic data, see:
     https://www.youtube.com/watch?v=2PC5L3tv6fA */
   font-family: var(--font-mono);
+  border-spacing: 0 1em;
 }
 
 tr>td {
@@ -125,13 +126,14 @@ tr>td {
 }
 
 footer {
-  font-size: var(--s-1);
+  font-size: var(--s1);
+  margin: auto;
 }
 
 a {
   color: currentColor;
   text-decoration-color: var(--color-accent);
-  text-decoration-thickness: 0.3ex;
+  text-decoration-thickness: 0.1ex;
   text-underline-offset: 0.3ex;
 }
 
@@ -164,10 +166,8 @@ a {
 
 /* Frame Layout */
 .frame {
-  --_denominator: var(--d, 9);
-  --_numerator: var(--n, 16);
   align-items: center;
-  aspect-ratio: var(--_numerator) / var(--_denominator);
+  aspect-ratio: 4 / 3;
   display: flex;
   justify-content: center;
   overflow: hidden;
@@ -197,4 +197,13 @@ a {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+p {
+  font-size: var(--s0);
+}
+
+.last-update {
+  font-size: var(--s0);
+  text-align: right;
 }

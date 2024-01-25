@@ -17,6 +17,8 @@ $db = new Database($pathToDb);
 $history = $db->getHistory();
 $listeners = $db->getListeners();
 
+$nowTime = (new DateTime)->setTimezone(new DateTimeZone('UTC'))->format('Y.m.d H:i');
+
 ?>
 
 <!DOCTYPE html>
@@ -57,6 +59,10 @@ $listeners = $db->getListeners();
 
                 <canvas id="chart"></canvas>
             </div>
+
+            <div class="last-update">
+                Last update: <?= $nowTime ?> UTC
+            </div>
         </header>
 
         <main>
@@ -87,33 +93,31 @@ $listeners = $db->getListeners();
                 </tr>
                 <?php for ($entry = 0; $entry < 20; $entry++): ?>
                 <tr>
-                    <!-- TODO(toby3d): generate columns and take it's names from data.datasets[].label -->
-                    <!-- TODO(toby3d): one header -- one link to station -->
-                    <th>Sovietwave</th>
-                    <th>Provoda.ch</th>
-                    <th>Witch House</th>
-                </tr>
-                <?php for ($entry = 0; $entry < 20; $entry++): ?>
-                <tr>
                     <td>
                         <a target="_blank"
                            href="https://youtube.com/results?<?= http_build_query(['search_query' => "{$history['soviet'][$entry]['artist']} {$history['soviet'][$entry]['title']}"]) ?>">
                             <h3><?= $history['soviet'][$entry]['artist'] ?></h3>
-                            <?= $history['soviet'][$entry]['title'] ?>
+                            <p>
+                                <?= $history['soviet'][$entry]['title'] ?>
+                            </p>
                         </a>
                     </td>
                     <td>
                         <a target="_blank"
                            href="https://youtube.com/results?<?= http_build_query(['search_query' => "{$history['provodach'][$entry]['artist']} {$history['provodach'][$entry]['title']}"]) ?>">
                             <h3><?= $history['provodach'][$entry]['artist'] ?></h3>
-                            <?= $history['provodach'][$entry]['title'] ?>
+                            <p>
+                                <?= $history['provodach'][$entry]['title'] ?>
+                            </p>
                         </a>
                     </td>
                     <td>
                         <a target="_blank"
                            href="https://youtube.com/results?<?= http_build_query(['search_query' => "{$history['witch'][$entry]['artist']} {$history['witch'][$entry]['title']}"]) ?>">
                             <h3><?= $history['witch'][$entry]['artist'] ?></h3>
-                            <?= $history['witch'][$entry]['title'] ?>
+                            <p>
+                                <?= $history['witch'][$entry]['title'] ?>
+                            </p>
                         </a>
                     </td>
                 </tr>
@@ -125,8 +129,7 @@ $listeners = $db->getListeners();
             Fork it <a href="https://github.com/xxkfqz/radiostat" target="_blank">here</a>
         </footer>
 
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"
-                async></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js" async id="chartJs"></script>
         <script>
             const labels = [<?= implode(',', array_map(function ($date) { return "'$date'"; }, array_keys($listeners['provodach']))) ?>];
             <?php foreach ($listeners as $code => $values): ?>
@@ -141,21 +144,24 @@ $listeners = $db->getListeners();
                         data: data_provodach,
                         borderColor: '#610298',
                         fill: false,
-                        tension: 0.4
+                        tension: 0.4,
+                        pointRadius: 0
                     },
                     {
                         label: 'Sovietwave',
                         data: data_soviet,
                         borderColor: '#e0c200',
                         fill: false,
-                        tension: 0.4
+                        tension: 0.4,
+                        pointRadius: 0
                     },
                     {
                         label: 'Witch House',
                         data: data_witch,
                         borderColor: '#0013d3',
                         fill: false,
-                        tension: 0.4
+                        tension: 0.4,
+                        pointRadius: 0
                     }
                 ]
             };
@@ -164,6 +170,7 @@ $listeners = $db->getListeners();
                 data: data,
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
                         title: {
                             display: true
@@ -192,7 +199,9 @@ $listeners = $db->getListeners();
                 }
             };
 
-            new Chart(document.getElementById('chart'), config);
+            document.querySelector('#chartJs').addEventListener('load', function () {
+                new Chart(document.getElementById('chart'), config);
+            });
         </script>
     </body>
 </html>
