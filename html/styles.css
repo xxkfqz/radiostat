@@ -125,11 +125,6 @@ tr>td {
   color: var(--color-mid);
 }
 
-footer {
-  font-size: var(--s1);
-  margin: auto;
-}
-
 a {
   color: currentColor;
   text-decoration-color: var(--color-accent);
@@ -166,8 +161,10 @@ a {
 
 /* Frame Layout */
 .frame {
+  --_denominator: var(--d, 9);
+  --_numerator: var(--n, 16);
   align-items: center;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: var(--_numerator) / var(--_denominator);
   display: flex;
   justify-content: center;
   overflow: hidden;
@@ -181,7 +178,23 @@ a {
 
 /* Utilities */
 .text-align\:left {
-  text-align: left;
+  text-align: left !important;
+}
+
+.text-align\:right {
+  text-align: right !important;
+}
+
+.font-size\:s-1 {
+  font-size: var(--s-1) !important;
+}
+
+.font-size\:s1 {
+  font-size: var(--s1) !important;
+}
+
+.max-inline-size\:100\% {
+  max-inline-size: 100% !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -197,13 +210,4 @@ a {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-p {
-  font-size: var(--s0);
-}
-
-.last-update {
-  font-size: var(--s0);
-  text-align: right;
 }
