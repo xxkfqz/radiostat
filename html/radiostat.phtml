@@ -17,7 +17,10 @@ $db = new Database($pathToDb);
 $history = $db->getHistory();
 $listeners = $db->getListeners();
 
-$nowTime = (new DateTime)->setTimezone(new DateTimeZone('UTC'))->format('Y.m.d H:i');
+$nowTimeDT = new DateTime;
+$nowTimeDT->setTimezone(new DateTimeZone('UTC'));
+$nowTime = $nowTimeDT->format('Y.m.d H:i');
+$nowTimeHtml = $nowTimeDT->format('c');
 
 ?>
 
@@ -51,18 +54,14 @@ $nowTime = (new DateTime)->setTimezone(new DateTimeZone('UTC'))->format('Y.m.d H
           style="--gutters: var(--s0);">
 
         <header>
-            <!-- TODO(toby3d): looks like unused block, remove it? -->
-            <div id="chart-legend"></div>
-
             <div class="frame"
                  style="--n: 4; --d: 3;">
 
                 <canvas id="chart"></canvas>
             </div>
 
-            <p class="text-align:right font-size:s-1 max-inline-size:100%">
-                <!-- TODO(toby3d): set datetime value in format 'YYYY-MM-DDThh:mm' or 'YYYY-MM-DD hh:mm' -->
-                Last update: <time><?= $nowTime ?> UTC</time>
+            <p class="text-align:right font-size:s0 max-inline-size:100%">
+                Last update: <time datetime="<?= $nowTimeHtml ?>"><?= $nowTime ?> UTC</time>
             </p>
         </header>
 

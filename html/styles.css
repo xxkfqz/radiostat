@@ -185,6 +185,10 @@ a {
   text-align: right !important;
 }
 
+.font-size\:s0 {
+    font-size: var(--s0) !important;
+}
+
 .font-size\:s-1 {
   font-size: var(--s-1) !important;
 }
