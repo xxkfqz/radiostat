@@ -11,16 +11,10 @@ if (php_sapi_name() === 'cli') {
 }
 
 $DIR = dirname(__FILE__);
-require "$DIR/../src/classes/Database.php";
+require "$DIR/../src/classes/Html.php";
 
-$db = new Database($pathToDb);
-$history = $db->getHistory();
-$listeners = $db->getListeners();
-
-$nowTimeDT = new DateTime;
-$nowTimeDT->setTimezone(new DateTimeZone('UTC'));
-$nowTime = $nowTimeDT->format('Y.m.d H:i');
-$nowTimeHtml = $nowTimeDT->format('c');
+$html = new Html($pathToDb);
+$history = $html->getHistory();
 
 ?>
 
@@ -43,7 +37,7 @@ $nowTimeHtml = $nowTimeDT->format('c');
               referrerpolicy="no-referrer"
               crossorigin="anonymous">
 
-        <link rel="preload"
+        <link rel="modulepreload"
               as="script"
               href="https://cdn.jsdelivr.net/npm/chart.js"
               type="text/javascript"
@@ -61,7 +55,7 @@ $nowTimeHtml = $nowTimeDT->format('c');
             </div>
 
             <p class="text-align:right font-size:s0 max-inline-size:100%">
-                Last update: <time datetime="<?= $nowTimeHtml ?>"><?= $nowTime ?> UTC</time>
+                Last update: <time datetime="<?= $html->getIsoTime() ?>"><?= $html->getStringTime() ?> UTC</time>
             </p>
         </header>
 
@@ -132,10 +126,8 @@ $nowTimeHtml = $nowTimeDT->format('c');
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js" async id="chartJs"></script>
         <script>
-            const labels = [<?= implode(',', array_map(function ($date) { return "'$date'"; }, array_keys($listeners['provodach']))) ?>];
-            <?php foreach ($listeners as $code => $values): ?>
-                const data_<?= $code ?> = [<?= implode(',', array_values($values)) ?>];
-            <?php endforeach; ?>
+            const labels = [<?= $html->getLabels() ?>];
+            <?= $html->formatChartValues() ?>
 
             const data = {
                 labels: labels,
@@ -145,7 +137,7 @@ $nowTimeHtml = $nowTimeDT->format('c');
                         data: data_provodach,
                         borderColor: '#610298',
                         fill: false,
-                        tension: 0.4,
+                        tension: 0.1,
                         pointRadius: 0
                     },
                     {
@@ -153,7 +145,7 @@ $nowTimeHtml = $nowTimeDT->format('c');
                         data: data_soviet,
                         borderColor: '#e0c200',
                         fill: false,
-                        tension: 0.4,
+                        tension: 0.1,
                         pointRadius: 0
                     },
                     {
@@ -161,7 +153,7 @@ $nowTimeHtml = $nowTimeDT->format('c');
                         data: data_witch,
                         borderColor: '#0013d3',
                         fill: false,
-                        tension: 0.4,
+                        tension: 0.1,
                         pointRadius: 0
                     }
                 ]

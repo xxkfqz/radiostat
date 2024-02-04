@@ -79,7 +79,7 @@ class Database
 
     private function formatTime($timestamp): bool|string
     {
-        return strftime('%Y-%m-%d %H:%M:%S', $timestamp);
+        return date('%Y-%m-%d %H:%M:%S', $timestamp);
     }
 
     public function getHistory(): array
