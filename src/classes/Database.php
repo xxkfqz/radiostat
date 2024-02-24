@@ -27,7 +27,7 @@ class Database
     /**
      * @throws Exception
      */
-    private function checkExtensions()
+    private function checkExtensions(): void
     {
         if (!extension_loaded('sqlite3')) {
             throw new Exception('SQLite3 extension is not loaded!');
@@ -38,22 +38,25 @@ class Database
         }
     }
 
-    private function openSqliteConnection()
+    private function openSqliteConnection(): void
     {
         $this->connection = new SQLite3($this->pathToDatabaseFile);
     }
 
-    private function checkTables()
+    private function checkTables(): void
     {
         $this->connection->exec(
             'CREATE TABLE IF NOT EXISTS listeners(name TEXT, code TEXT, time DATETIME, listeners INT)'
         );
         $this->connection->exec(
-            'CREATE TABLE IF NOT EXISTS history(code TEXT, artist TEXT, title TEXT, time DATETIME, checksum TEXT UNIQUE)'
+            'CREATE TABLE IF NOT EXISTS history(code TEXT, track INT, time DATETIME)'
+        );
+        $this->connection->exec(
+            'CREATE TABLE IF NOT EXISTS tracks(artist TEXT, title TEXT)'
         );
     }
 
-    public function writeListeners(string $name, string $code, int $listeners)
+    public function writeListeners(string $name, string $code, int $listeners): void
     {
         $name = \SQLite3::escapeString($name);
         $code = \SQLite3::escapeString($code);
@@ -64,36 +67,66 @@ class Database
         );
     }
 
-    public function writeHistory(string $code, string $artist, string $trackTitle, string $time)
+    public function getTrackId($artist, $title)
     {
         $artist = \SQLite3::escapeString($artist);
-        $code = \SQLite3::escapeString($code);
-        $trackTitle = \SQLite3::escapeString($trackTitle);
-        $time = $this->formatTime($time);
+        $title = \SQLite3::escapeString($title);
 
-        $checksum = hash('sha256', "{$artist}___{$trackTitle}___{$time}", false);
+        $raw = $this->connection->query(
+            "SELECT rowid, artist, title FROM tracks WHERE artist = '$artist' AND title = '$title'"
+        );
+        $result = $raw->fetchArray(SQLITE3_ASSOC);
+        if (!empty($result)) {
+            return $result['rowid'];
+        }
+
         $this->connection->exec(
-            "INSERT OR IGNORE INTO history(code, artist, title, time, checksum) VALUES('$code', '$artist', '$trackTitle', '$time', '$checksum')"
+            "INSERT OR IGNORE INTO tracks(artist, title) VALUES('$artist', '$title')"
+        );
+
+        return $this->connection->lastInsertRowID();
+    }
+
+    public function writeHistory(string $code, string $artist, string $trackTitle, string $time): void
+    {
+        $code = \SQLite3::escapeString($code);
+        $time = $this->formatTime($time);
+        $trackId = $this->getTrackId($artist, $trackTitle);
+
+        // TODO: maybe it should be single query
+        $result = $this->connection->query(
+            "SELECT code, track, time FROM history WHERE code = '$code' AND track = '$trackId' AND time = '$time'"
+        )->fetchArray(SQLITE3_ASSOC);
+        if (!empty($result)) {
+            return;
+        }
+
+        $this->connection->exec(
+            "INSERT OR IGNORE INTO history(code, track, time) VALUES('$code', '$trackId', '$time')"
         );
     }
 
     private function formatTime($timestamp): bool|string
     {
-        return date('%Y-%m-%d %H:%M:%S', $timestamp);
+        return date('Y-m-d H:i:s', $timestamp);
     }
 
     public function getHistory(): array
     {
         $raw = $this->connection->query(
-            "SELECT code, artist, title FROM history WHERE time > datetime('now' , '-7 days') ORDER BY time DESC LIMIT 100"
+            "SELECT code, track FROM history WHERE time > datetime('now' , '-7 days') ORDER BY time DESC LIMIT 100"
         );
 
         $rawResult = [];
         while ($row = $raw->fetchArray(SQLITE3_ASSOC)) {
-            $row = array_map(function($str) {
+            $trackRow = $this->connection->query(
+                "SELECT artist, title FROM tracks WHERE rowid = '{$row['track']}'"
+            )->fetchArray(SQLITE3_ASSOC);
+
+            $trackRow = array_map(function ($str) {
                 return stripslashes($str);
-            }, $row);
-            $rawResult[$row['code']][] = $row;
+            }, $trackRow);
+            $rawResult[$row['code']][] = $trackRow;
         }
 
         return $rawResult;

@@ -10,7 +10,7 @@ class Html
      */
     public function __construct($pathToDb)
     {
-        require 'Database.php';
+        require_once 'Database.php';
 
         $this->db = new Database($pathToDb);
 

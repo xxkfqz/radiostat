@@ -31,7 +31,7 @@ class StatParser
     /**
      * @throws Exception
      */
-    private function checkExtensions()
+    private function checkExtensions(): void
     {
         if (!extension_loaded('curl')) {
             throw new Exception('Curl extension is not loaded!');

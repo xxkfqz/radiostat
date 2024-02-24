@@ -1,7 +1,8 @@
 <?php
 
-require 'classes/Database.php';
-require 'classes/StatParser.php';
+require_once 'classes/Database.php';
+require_once 'classes/StatParser.php';
+require_once 'classes/Html.php';
 
 if (php_sapi_name() === 'cli') {
     if ($argc < 2) {
